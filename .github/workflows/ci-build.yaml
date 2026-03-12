@@ -35,7 +35,12 @@ jobs:
       # Pousser l'image vers Docker Hub
       - name: Push image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/devops-static-website:latest
-      # Run Trivy vulnerability scanner
+      # Job 2 : Scan Trivy sur Ubuntu (GitHub hébergé)
+  trivy:
+    runs-on: ubuntu-latest
+    needs: build  # attend que build soit terminé
+
+    steps:
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@0.20.0
         with:
